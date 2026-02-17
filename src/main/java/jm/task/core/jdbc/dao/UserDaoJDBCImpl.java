@@ -9,7 +9,9 @@ import java.util.List;
 
 
 public class UserDaoJDBCImpl implements UserDao {
+    private final Connection connection;
     public UserDaoJDBCImpl() {
+        this.connection = Util.getConnection();
 
     }
 
@@ -22,7 +24,6 @@ public class UserDaoJDBCImpl implements UserDao {
                 "lastName VARCHAR(100)," +
                 "age TINYINT" +
                 ")";
-        Connection connection = Util.getConnection();
         try (Statement statement = connection.createStatement()) {
 
             statement.executeUpdate(sql);
@@ -34,7 +35,6 @@ public class UserDaoJDBCImpl implements UserDao {
 
     public void dropUsersTable() {
         String sql = "DROP TABLE IF EXISTS users";
-        Connection connection = Util.getConnection();
         try (Statement statement = connection.createStatement()) {
 
             statement.executeUpdate(sql);
@@ -49,7 +49,6 @@ public class UserDaoJDBCImpl implements UserDao {
 
         String sql = "INSERT INTO users (name, lastName, age) VALUES (?, ?, ?)";
 
-        Connection connection = Util.getConnection();
         try (PreparedStatement ps = connection.prepareStatement(sql)) {
 
             ps.setString(1, name);
@@ -69,7 +68,6 @@ public class UserDaoJDBCImpl implements UserDao {
     public void removeUserById(long id) {
         String sql = "DELETE FROM users WHERE id = ?";
 
-        Connection connection = Util.getConnection();
         try (PreparedStatement ps = connection.prepareStatement(sql)) {
 
             ps.setLong(1, id);
@@ -84,7 +82,6 @@ public class UserDaoJDBCImpl implements UserDao {
     public List<User> getAllUsers() {
         List<User> users = new ArrayList<>();
         String sql = "SELECT * FROM users";
-        Connection connection = Util.getConnection();
         try (Statement statement = connection.createStatement();
              ResultSet rs = statement.executeQuery(sql)) {
             while (rs.next()) {
@@ -103,7 +100,6 @@ public class UserDaoJDBCImpl implements UserDao {
     @Override
     public void cleanUsersTable() {
         String sql = "TRUNCATE TABLE users";
-        Connection connection = Util.getConnection();
         try (Statement statement = connection.createStatement()) {
             statement.executeUpdate(sql);
         } catch (SQLException e) {
