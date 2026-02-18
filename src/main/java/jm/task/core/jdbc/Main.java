@@ -1,5 +1,6 @@
 package jm.task.core.jdbc;
 import jm.task.core.jdbc.dao.UserDao;
+import jm.task.core.jdbc.dao.UserDaoHibernateImpl;
 import jm.task.core.jdbc.dao.UserDaoJDBCImpl;
 import jm.task.core.jdbc.model.User;
 import jm.task.core.jdbc.service.UserService;
@@ -21,6 +22,6 @@ public class Main {
         userService.removeUserById(1);
         userService.cleanUsersTable();
         userService.dropUsersTable();
-        Util.closeConnection();
+//        Util.closeConnection();
     }
 }
